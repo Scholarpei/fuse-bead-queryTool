@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import (
     QTableWidget,
     QTableWidgetItem,
     QLabel,
-    QSizePolicy,
+    QSizePolicy, QHBoxLayout,
 )
 from PyQt5.QtGui import QColor, QBrush
 
@@ -19,24 +19,57 @@ class ColorSearchApp(QWidget):
         super().__init__()
         self.setWindowTitle("Mard色号拼豆位置查询工具")
 
+        self.setStyleSheet("""
+            QWidget {
+                background-color: #F0F0F0;
+            }
+            QLineEdit {
+                padding: 5px;
+                font-size: 16px;
+                border: 1px solid #B0B0B0;
+                border-radius: 5px;
+            }
+            QPushButton {
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px;
+                border-radius: 5px;
+                font-size: 14px;
+            }
+            QPushButton:hover {
+                background-color: #45a049;
+            }
+            QTableWidget {
+                border: 1px solid #B0B0B0;
+                gridline-color: #E0E0E0;
+                font-size: 14px;
+                selection-background-color: #4CAF50;
+                selection-color: white;
+            }
+        """)
+
         # 布局
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
 
-        # 搜索框
+        # 搜索框、标签和按钮的横向布局
+        self.search_layout = QHBoxLayout()  # 创建一个水平布局
+
         self.search_label = QLabel("输入色号（如A1）:")
-        self.layout.addWidget(self.search_label)
+        self.search_layout.addWidget(self.search_label)  # 将标签添加到水平布局
 
         self.search_entry = QLineEdit()
-        self.layout.addWidget(self.search_entry)
+        self.search_layout.addWidget(self.search_entry)  # 将搜索框添加到水平布局
+
+        self.search_button = QPushButton("查找")
+        self.search_button.clicked.connect(self.on_search)
+        self.search_layout.addWidget(self.search_button)  # 将按钮添加到水平布局
+
+        self.layout.addLayout(self.search_layout)  # 将水平布局添加到主布局
 
         # 连接回车键事件
         self.search_entry.returnPressed.connect(self.on_search)
 
-        # 搜索按钮
-        self.search_button = QPushButton("查找")
-        self.search_button.clicked.connect(self.on_search)
-        self.layout.addWidget(self.search_button)
 
         # 创建表格（QTableWidget）
         self.results_table = QTableWidget()
