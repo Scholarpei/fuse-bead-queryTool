@@ -8,7 +8,7 @@ def add_data_to_csv(file_path):
 
     # 输入盒号
     h = input("请输入盒号: ")
-    h = int(h)
+    #h = int(h)
 
     # 输入文本数据
     print("请输入4行6列的文本数据（每行以空格分隔）:")
